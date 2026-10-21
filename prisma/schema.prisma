@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Role {
+  id        Int    @id @default(autoincrement())
+  roleName  String @unique
+  rolePower Int    @default(0) // 0 = standard user, 1 = admin
+  users     User[]
+}
+
+model User {
+  id               String     @id // Google OAuth User ID
+  userName         String
+  roleId           Int        @default(1)
+  role             Role       @relation(fields: [roleId], references: [id])
+  kdfSalt          String?    // Salt for client-side Argon2id key derivation
+  registrationDate DateTime   @default(now())
+
+  vault            Vault?
+  logs             LogEntry[]
+  sessions         Session[]
+}
+
+model Vault {
+  id               Int      @id @default(autoincrement())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vaultData        String   // Encrypted JSON blob containing password entries
+  vaultIV          String   // Initialization Vector (Base64/Hex) for AES-GCM
+  creationDate     DateTime @default(now())
+  usageDate        DateTime @updatedAt
+  modificationDate DateTime @updatedAt
+}
+
+model LogEntry {
+  id         String   @id @default(uuid())
+  logDate    DateTime @default(now())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userAction String
+  agentIP    String
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expireDate   DateTime
+  sessionIP    String?
+}
