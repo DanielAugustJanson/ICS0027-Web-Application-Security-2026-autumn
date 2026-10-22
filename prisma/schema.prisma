@@ -20,8 +20,9 @@ model Role {
 }
 
 model User {
-  id               String     @id // Google OAuth User ID
-  userName         String
+  id               String     @id // Google OAuth User ID (sub)
+  email            String     @unique // Google User Email
+  userName         String     // Display name (default from Google, editable in /settings)
   roleId           Int        @default(1)
   role             Role       @relation(fields: [roleId], references: [id])
   kdfSalt          String?    // Salt for client-side Argon2id key derivation
