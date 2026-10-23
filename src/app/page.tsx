@@ -1,13 +1,24 @@
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import  prisma  from "@/lib/prisma";
+import { Button } from "@base-ui/react";
+import Link from "next/link";
 
 export default async function Home() {
-  // Query database to test connection
-  const userCount = await prisma.user.count();
-
   return (
-    <div className="p-8">
-      <h1>LockyV3 Database Test</h1>
-      <p>Total users in PostgreSQL: {userCount}</p>
+    <div className="container mx-auto min-h-screen flex justify-center items-center">
+      <Card className="w-xl bg-accent">
+        <CardHeader>
+          <CardTitle className="text-6xl">Locky V3</CardTitle>
+          <CardDescription>The prime password manager</CardDescription>
+        </CardHeader>
+        <CardContent>
+            <Button className="cursor-pointer bg-accent-foreground rounded-2xl p-2" >
+              <Link href="/auth">Enter Locky</Link>
+            </Button>
+        </CardContent>
+      </Card>
+
+
     </div>
   );
 }
