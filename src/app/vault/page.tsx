@@ -1,38 +1,29 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarProvider } from "@/components/ui/sidebar";
-import { auth } from "@/lib/auth";
+import SideMenu from "@/components/vault/SideMenu";
+import { auth, signOut } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
 
 export default async function VaultPage() {
 
   const session = await auth()
-  if (session) redirect("/auth")
+  if (!session) redirect("/auth")
 
   return (
     <SidebarProvider>
-      <Sidebar>
-        <SidebarHeader />
-        <div className="rounded-2xl text-2xl p-3 text-center m-3">
-          <h1>Locky V3</h1>
-          {
-            /*
-            <Avatar>
-              <AvatarImage src="https://picsum.photos" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            */
-          }
+      <SideMenu/>
+      { /* Main Content here */ }
+      <main className="w-screen">
+        <div className="container mx-auto">
+          <Card className="container">
+            <CardHeader>
+              <CardTitle>The Vault</CardTitle>
+              <CardDescription>{ }</CardDescription>
+            </CardHeader>
+          </Card>
         </div>
-            <SidebarContent>
-              <SidebarGroup />
-              <SidebarGroup />
-            </SidebarContent>
-            <SidebarFooter />
-      </Sidebar>
-    <main>
-
     </main>
     </SidebarProvider>
     )
@@ -43,12 +34,5 @@ export default async function VaultPage() {
 
 
 /*
-<div className="container mx-auto">
-  <Card className="container">
-    <CardHeader>
-      <CardTitle>The Vault</CardTitle>
-      <CardDescription>Welcome back</CardDescription>
-    </CardHeader>
-  </Card>
-</div>
+
 */

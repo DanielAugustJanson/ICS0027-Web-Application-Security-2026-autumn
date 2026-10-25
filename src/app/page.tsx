@@ -2,8 +2,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import  prisma  from "@/lib/prisma";
 import { Button } from "@base-ui/react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
+  redirect("/auth")
   return (
     <div className="container mx-auto min-h-screen flex justify-center items-center">
       <Card className="w-xl bg-accent">
