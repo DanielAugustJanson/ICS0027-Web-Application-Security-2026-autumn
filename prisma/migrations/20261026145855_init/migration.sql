@@ -10,6 +10,7 @@ CREATE TABLE "Role" (
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
     "userName" TEXT NOT NULL,
     "roleId" INTEGER NOT NULL DEFAULT 1,
     "kdfSalt" TEXT,
@@ -55,6 +56,9 @@ CREATE TABLE "Session" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Role_roleName_key" ON "Role"("roleName");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Vault_userId_key" ON "Vault"("userId");
