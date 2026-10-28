@@ -8,6 +8,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   providers: [GitHub, Google],
   session: {
     strategy: "jwt",
+    maxAge: 5 * 60, //Age to 5min max
+    //updateAge: 0 //If you want to disable automatic token refreshing
   },
   callbacks: {
     async signIn({ user }) {
@@ -67,7 +69,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         }
        return true
       } catch (error) {
-        console.error("Error registering user in database", error)
+          console.error("Error registering user in database", error)
         return false;
       }
     },

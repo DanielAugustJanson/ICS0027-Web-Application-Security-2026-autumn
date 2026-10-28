@@ -30,7 +30,6 @@ model User {
 
   vault            Vault?
   logs             LogEntry[]
-  sessions         Session[]
 }
 
 model Vault {
@@ -53,11 +52,4 @@ model LogEntry {
   agentIP    String
 }
 
-model Session {
-  id           String   @id @default(uuid())
-  sessionToken String   @unique
-  userId       String
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  expireDate   DateTime
-  sessionIP    String?
-}
+
