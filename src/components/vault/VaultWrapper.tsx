@@ -28,10 +28,10 @@ export default function VaultWrapper({ user, initialVault }: VaultWrapperInterfa
         <main className="flex bg-background">
             {activeTab === "vault" && (
           <Vault
-            //user={user}
-            //initialVault={initialVault}
-            //masterKey={masterKey}
-            //setMasterKey={setMasterKey}
+            user={user}
+            initialVault={initialVault}
+            masterKey={masterKey}
+            setMasterKey={setMasterKey}
           />
         )}
         {activeTab === "settings" && <Settings />} 
