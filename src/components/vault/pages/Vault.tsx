@@ -92,6 +92,28 @@ export default function Vault({ user, initialVault, masterKey, setMasterKey }: V
   );
 }
 
+// Helper to convert ArrayBuffer to Base64
+function bufferToBase64(buf: ArrayBuffer): string {
+  return btoa(String.fromCharCode(...new Uint8Array(buf)));
+}
+
+// Encrypts plain JSON object using AES-GCM
+async function encryptVaultPayload(data: unknown, key: CryptoKey) {
+  const iv = window.crypto.getRandomValues(new Uint8Array(12));
+  const encodedData = new TextEncoder().encode(JSON.stringify(data));
+
+  const encryptedBuffer = await window.crypto.subtle.encrypt(
+    { name: "AES-GCM", iv },
+    key,
+    encodedData
+  );
+
+  return {
+    vaultData: bufferToBase64(encryptedBuffer),
+    vaultIV: bufferToBase64(iv.buffer),
+  };
+}
+
 export interface VaultItemInterface{
     id: string;
     title: string;
